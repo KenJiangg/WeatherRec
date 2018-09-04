@@ -1,6 +1,7 @@
 <template>
 <!-- eslint-disable max-len -->
 <div id="app">
+  <alert :message= "message" v-if= "showMessage"></alert>
   <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
   <br><br>
   <table class="table table-hover">
@@ -27,7 +28,7 @@
         label-for="form-title-input">
         <b-form-input id="form-title-input"
           type="text"
-          v-model="addLocForm.title"
+          v-model= "addLocForm.title"
           required
           placeholder="Enter Location">
         </b-form-input>
@@ -42,6 +43,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 import axios from 'axios';
+import Alert from './Alert';
 
 export default{
   data() {
@@ -50,7 +52,12 @@ export default{
       addLocForm: {
         title: '',
       },
+      message: '',
+      showMessage: false,
     };
+  },
+  components: {
+    alert: Alert,
   },
   methods: {
     getLoc() {
@@ -69,6 +76,8 @@ export default{
       axios.post(path, payload)
         .then(() => {
           this.getLoc();
+          this.message = 'Location Added';
+          this.showMessage = true;
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -82,8 +91,6 @@ export default{
     onSubmit(evt) {
       evt.preventDefault();
       this.$refs.addLocModal.hide();
-      let read = false;
-      if (this.addLocForm.read[0]) read = true;
       const payload = {
         title: this.addLocForm.title,
       };

@@ -18,4 +18,7 @@ export default {
   text-align:center;
   margin-top:30px;
 }
+#alert{
+  width:17%;
+}
 </style>
