@@ -16,12 +16,13 @@
         <td>{{ loc.title }}</td>
         <td>
           <button type="button" class="btn btn-success btn-sm">Weather</button>
+          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
           <button type="button" class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
-  <b-modal ref="addLocModal" id="loc-modal" title="Add a new Location" hide-footer>
+  <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
     <b-form @submit="onSubmit" @reset="onReset" class="w-100">
       <b-form-group id="form-title-group"
         label="Location:"
@@ -35,6 +36,16 @@
       </b-form-group>
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
+    </b-form>
+  </b-modal>
+  <b-modal ref="editLocModal" id="loc-update-modal" title="Update" hide-footer>
+    <b-form @submit= "onSubmitUpdate" @reset= "onResetUpdate" class="w-100">
+      <b-form-group id= "form-title-edit-group" label = "Location:" label-for= "form-title-edit-input">
+        <b-form-input id="form-title-edit-input" type= "text" v-model= "editForm.title" required placeholder= "Enter Location">
+        </b-form-input>
+      </b-form-group>
+      <b-button type= "submit" variant= "primary"> Update </b-button>
+      <b-button type= "submit" variant= "danger"> Cancel </b-button>
     </b-form>
   </b-modal>
 </div>
@@ -54,6 +65,10 @@ export default{
       },
       message: '',
       showMessage: false,
+      editForm: {
+        id: '',
+        title: '',
+      },
     };
   },
   components: {
@@ -87,6 +102,8 @@ export default{
     },
     initForm() {
       this.addLocForm.title = '';
+      this.editForm.id = '';
+      this.editForm.title = '';
     },
     onSubmit(evt) {
       evt.preventDefault();
@@ -101,6 +118,37 @@ export default{
       evt.preventDefault();
       this.$refs.addLocModal.hide();
       this.initForm();
+    },
+    editLoc(loc) {
+      this.editForm = loc;
+    },
+    onSubmitUpdate(evt) {
+      evt.preventDefault();
+      this.$refs.editLocModal.hide();
+      const payload = {
+        title: this.editForm.title,
+      };
+      this.updateLoc(payload, this.editForm.id);
+    },
+    updateLoc(payload, locID) {
+      const path = `http://localhost:5000/index/${locID}`;
+      axios.get(path)
+        .then((res) => {
+          this.getLoc();
+          this.message = 'Book updated';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.getLoc();
+        });
+    },
+    onResetUpdate(evt) {
+      evt.preventDefault();
+      this.$refs.editLocModal.hide();
+      this.initForm();
+      this.getLoc();
     },
   },
   created() {
