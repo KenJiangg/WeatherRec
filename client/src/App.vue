@@ -19,6 +19,6 @@ export default {
   margin-top:30px;
 }
 #alert{
-  width:17%;
+  width:19%;
 }
 </style>

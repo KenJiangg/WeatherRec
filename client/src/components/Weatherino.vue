@@ -17,7 +17,7 @@
         <td>
           <button type="button" class="btn btn-success btn-sm">Weather</button>
           <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
-          <button type="button" class="btn btn-danger btn-sm">Delete</button>
+          <button type="button" class="btn btn-danger btn-sm" @click= "onDeleteLoc(loc)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -132,10 +132,10 @@ export default{
     },
     updateLoc(payload, locID) {
       const path = `http://localhost:5000/index/${locID}`;
-      axios.get(path)
+      axios.put(path, payload)
         .then((res) => {
           this.getLoc();
-          this.message = 'Book updated';
+          this.message = 'Location updated';
           this.showMessage = true;
         })
         .catch((error) => {
@@ -149,6 +149,23 @@ export default{
       this.$refs.editLocModal.hide();
       this.initForm();
       this.getLoc();
+    },
+    removeLoc(locID) {
+      const path = `http://localhost:5000/index/${locID}`;
+      axios.delete(path)
+        .then(() => {
+          this.getLoc();
+          this.message = 'Location removed!';
+          this.showMessage = true;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.getLoc();
+        });
+    },
+    onDeleteLoc(loc) {
+      this.removeLoc(loc.id);
     },
   },
   created() {

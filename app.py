@@ -39,25 +39,27 @@ def all_weather():
         response_object['yourLoc'] = LOCATIONS
     return jsonify(response_object)
 
-@app.route('/index/<index_id>', methods=['PUT'])
-def single_location(location_id):
+@app.route('/index/<loc_ID>', methods=['PUT', 'DELETE'])
+def single_location(loc_ID):
     response_object = {'status': 'success'}
     if request.method == 'PUT':
-        remove_location(location_id)
+        remove_location(loc_ID)
         LOCATION = {
             'id': uuid.uuid4().hex,
             'title':request.json['title']
         }
         LOCATIONS.append(LOCATION)
         response_object['message'] = 'Location updated!'
-    else:
-        response_object['yourLoc'] = LOCATIONS
+    if request.method == 'DELETE':
+        remove_location(loc_ID)
+        response_object['message'] = 'Location removed!'
     return jsonify(response_object)
-def remove_location(location_id):
+def remove_location(loc_ID):
     for loc in LOCATIONS:
-        if loc['id'] == location_id:
+        if loc['id'] == loc_ID:
             LOCATIONS.remove(loc)
             return True
     return False
+
 if __name__ == '__main__':
     app.run()
