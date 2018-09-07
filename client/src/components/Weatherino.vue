@@ -58,7 +58,7 @@
       </thead>
       <tbody>
         <td> {{ location }} + {{  icon  }} </td>
-        <td> Current : {{ info }} </td>
+        <td> {{ info }} </td>
       </tbody>
     </table>
   </b-modal>
