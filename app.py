@@ -88,14 +88,14 @@ def openWeather():
     elif  RAIN_WARNING > .5:
         rain_commentary = "Grab your umbrella, you'll need it"
     
-    location = {'location' : weather_title}
-    weather_info = {
+    
+    weather_info = [{
         'temperature' : temperature,
         'Max' : temperatureMax,
         'Min' : temperatureMin,
         'rain' : rain_commentary
-    }
-    response_object['location'] = location
+    }]
+    response_object['location'] = str(weather_title)
     response_object['icon'] = weather_icon
     response_object['info'] = weather_info
     return jsonify(response_object)

@@ -69,6 +69,9 @@ export default{
         id: '',
         title: '',
       },
+      location : '',
+      icon : '',
+      info : [],
     };
   },
   components: {
@@ -167,11 +170,20 @@ export default{
     onDeleteLoc(loc) {
       this.removeLoc(loc.id);
     },
-    openWeather(evt) {
+    onWeather(evt) {
       evt.preventDefault();
       const payload = {
         title: this.loc.title,
       };
+      this.openWeather(payload);
+    },
+    openWeather(payload) {
+      const path = 'http://localhost:5000/index/weather';
+      axios.put(path)
+        .then(() => {
+      
+        })
+    
     },
   },
   created() {
