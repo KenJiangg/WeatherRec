@@ -62,7 +62,7 @@ def remove_location(loc_ID):
             return True
     return False
 
-@app.route('/index/weather')
+@app.route('/index/weather', methods=['PUT'])
 def openWeather():
     response_object = {'status' : 'success'}
     # Google Maps API #
@@ -91,8 +91,8 @@ def openWeather():
     
     weather_info = [{
         'temperature' : temperature,
-        'Max' : temperatureMax,
-        'Min' : temperatureMin,
+        'max' : temperatureMax,
+        'min' : temperatureMin,
         'rain' : rain_commentary
     }]
     response_object['location'] = str(weather_title)

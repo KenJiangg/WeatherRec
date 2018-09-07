@@ -15,7 +15,7 @@
       <tr v-for="(loc, index) in yourLoc" :key="index">
         <td>{{ loc.title }}</td>
         <td>
-          <button type="button" class="btn btn-success btn-sm" @click= "openWeather(loc)">Weather</button>
+          <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
           <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
           <button type="button" class="btn btn-danger btn-sm" @click= "onDeleteLoc(loc)">Delete</button>
         </td>
@@ -48,6 +48,20 @@
       <b-button type= "submit" variant= "danger"> Cancel </b-button>
     </b-form>
   </b-modal>
+  <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
+    <table class = "table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Weather</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <td> {{ location }} + {{  icon  }} </td>
+        <td> Current : {{ info }} </td>
+      </tbody>
+    </table>
+  </b-modal>
 </div>
 </template>
 
@@ -69,9 +83,9 @@ export default{
         id: '',
         title: '',
       },
-      location : '',
-      icon : '',
-      info : [],
+      location: '',
+      icon: '',
+      info: [],
     };
   },
   components: {
@@ -179,11 +193,17 @@ export default{
     },
     openWeather(payload) {
       const path = 'http://localhost:5000/index/weather';
-      axios.put(path)
-        .then(() => {
-      
+      axios.put(path, payload)
+        .then((res) => {
+          this.location = res.data.location;
+          this.icon = res.data.icon;
+          this.info = res.data.info;
         })
-    
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.getLoc();
+        });
     },
   },
   created() {
