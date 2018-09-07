@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS 
 from geolocation.main import GoogleMaps 
 import uuid
@@ -63,10 +63,10 @@ def remove_location(loc_ID):
     return False
 
 @app.route('/index/weather')
-def openWeather(weather_title):
-    response_object = {'status': 'success'}
-
+def openWeather():
+    response_object = {'status' : 'success'}
     # Google Maps API #
+    weather_title = request.json['title']
     google_maps = GoogleMaps(api_key='AIzaSyA5woJnkAkBYXLBgrTv9CX9j_C0Lrv6yvY') #API KEY
     location = google_maps.search(location=weather_title) # sends search to Google Maps.
     mylocation=location.first() #uses first location query  
@@ -95,5 +95,9 @@ def openWeather(weather_title):
         'Min' : temperatureMin,
         'rain' : rain_commentary
     }
+    response_object['location'] = location
+    response_object['icon'] = weather_icon
+    response_object['info'] = weather_info
+    return jsonify(response_object)
 if __name__ == '__main__':
     app.run()

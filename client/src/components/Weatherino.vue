@@ -167,6 +167,12 @@ export default{
     onDeleteLoc(loc) {
       this.removeLoc(loc.id);
     },
+    openWeather(evt) {
+      evt.preventDefault();
+      const payload = {
+        title: this.loc.title,
+      };
+    },
   },
   created() {
     this.getLoc();
