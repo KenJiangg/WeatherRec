@@ -15,7 +15,7 @@
       <tr v-for="(loc, index) in yourLoc" :key="index">
         <td>{{ loc.title }}</td>
         <td>
-          <button type="button" class="btn btn-success btn-sm">Weather</button>
+          <button type="button" class="btn btn-success btn-sm" @click= "openWeather(loc)">Weather</button>
           <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
           <button type="button" class="btn btn-danger btn-sm" @click= "onDeleteLoc(loc)">Delete</button>
         </td>
