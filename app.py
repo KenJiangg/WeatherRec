@@ -88,15 +88,27 @@ def openWeather():
     elif  RAIN_WARNING > .5:
         rain_commentary = "Grab your umbrella, you'll need it"
     
-    
+    icon_database = {
+        'clear-day' : 'https://unsplash.com/photos/14cHwhRKJh8',
+        'clear-night' : 'https://unsplash.com/photos/18nR85wWyLY',
+        'rain' : 'https://unsplash.com/photos/7D4KybyRgyk',
+        'snow' : 'https://unsplash.com/photos/SH4GNXNj1RA',
+        'sleet' : 'https://unsplash.com/photos/dXWRATKqz2k',
+        'wind' : 'https://unsplash.com/photos/mi1Az-fWbo8',
+        'fog' : 'https://unsplash.com/photos/aSCx7M1E4Vo',
+        'cloudy' : 'https://unsplash.com/photos/pbxwxwfI0B4',
+        'partly-cloudy-day' : 'https://unsplash.com/photos/wgLPy2YBXuc',
+        'partly-cloudy-night' : 'https://unsplash.com/photos/aI1tDC8PaLM'
+    }
     weather_info = [{
         'temperature' : temperature,
         'max' : temperatureMax,
         'min' : temperatureMin,
         'rain' : rain_commentary
     }]
+    stock= icon_database[weather_icon]
     response_object['location'] = str(weather_title)
-    response_object['icon'] = weather_icon
+    response_object['picture'] = stock
     response_object['info'] = weather_info
     return jsonify(response_object)
 if __name__ == '__main__':

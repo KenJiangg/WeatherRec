@@ -51,6 +51,7 @@
     </b-form>
   </b-modal>
   <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
+    <b-card v-bind:src = "picture" >
     <table class = "table table-hover">
       <tbody>
         <tr v-for="(info, index) in info" :key="index">
@@ -66,6 +67,7 @@
         </tr>
       </tbody>
     </table>
+    </b-card>
   </b-modal>
 </div>
 </template>
@@ -89,8 +91,8 @@ export default{
         title: '',
       },
       location: '',
-      icon: '',
       info: [],
+      picture: '',
     };
   },
   components: {
