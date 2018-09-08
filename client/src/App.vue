@@ -13,6 +13,7 @@ export default {
 <style>
 #app {
   margin-top: 35px;
+  align-items: center;
 }
 #head{
   text-align:center;

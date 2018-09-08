@@ -4,7 +4,7 @@
   <alert :message= "message" v-if= "showMessage"></alert>
   <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
   <br><br>
-  <table class="table table-hover">
+  <table id = "table" class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Location</th>
@@ -13,12 +13,14 @@
     </thead>
     <tbody>
       <tr v-for="(loc, index) in yourLoc" :key="index">
+        <b-card style="max-width: 30rem;">
         <td>{{ loc.title }}</td>
         <td>
           <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
           <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
-          <button type="button" class="btn btn-danger btn-sm" @click= "onDeleteLoc(loc)">Delete</button>
+          <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button>
         </td>
+        </b-card>
       </tr>
     </tbody>
   </table>
@@ -50,15 +52,18 @@
   </b-modal>
   <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
     <table class = "table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Weather</th>
-          <th></th>
-        </tr>
-      </thead>
       <tbody>
-        <td> {{ location }} + {{  icon  }} </td>
-        <td> {{ info }} </td>
+        <tr v-for="(info, index) in info" :key="index">
+          <td> {{ location }} : {{  icon  }} </td>
+          <td> {{ info.temperature }}°F </td>
+        </tr>
+        <tr v-for="(info, index) in info" :key="index">
+          <td> Maximum : {{ info.max }}°F </td>
+          <td> Minimum : {{ info.min }}°F </td>
+        </tr>
+        <tr v-for="(info, index) in info" :key="index">
+          <td> {{ info.rain }} </td>
+        </tr>
       </tbody>
     </table>
   </b-modal>
