@@ -108,6 +108,16 @@ def openWeather():
         'min' : temperatureMin,
         'rain' : rain_commentary
     }]
+    recAlbum_database = [
+        { 'name' : 'weather1', 'link' : ''},
+        { 'name' : 'weather2', 'link' : ''},
+        { 'name' : 'weather3', 'link' : ''},
+        { 'name' : 'weather4', 'link' : ''},
+        { 'name' : 'weather5', 'link' : ''},
+        { 'name' : 'weather6', 'link' : ''},
+        { 'name' : 'weather7', 'link' : ''},
+        { 'name' : 'weather8', 'link' : ''}
+    ] 
     response_object['location'] = str(weather_title)
     response_object['info'] = weather_info
     response_object['pic'] = picture

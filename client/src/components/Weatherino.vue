@@ -55,7 +55,7 @@
       <tbody>
         <tr v-for="(info, index) in info" :key="index">
           <td> {{ location }} </td>
-          <button type="button" class="btn btn-outline-dark btn-sm" v-b-modal.loc-weather-icon-modal>{{ icon }}</button>
+          <button type="button" class="btn btn-outline-dark btn-sm" v-b-modal.loc-weather-icon-modal>VisuWeather</button>
         </tr>
         <tr v-for="(info, index) in info" :key="index">
           <td> {{ info.temperature }}°F </td>

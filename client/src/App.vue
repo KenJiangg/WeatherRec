@@ -22,8 +22,5 @@ export default {
 #alert{
   width:19%;
 }
-#pic {
-  height: 30px;
-  width: 30px;
-}
+
 </style>
