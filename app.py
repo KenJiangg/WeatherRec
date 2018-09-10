@@ -88,28 +88,30 @@ def openWeather():
     elif  RAIN_WARNING > .5:
         rain_commentary = "Grab your umbrella, you'll need it"
     
-    icon_database = {
-        'clear-day' : 'https://unsplash.com/photos/14cHwhRKJh8',
-        'clear-night' : 'https://unsplash.com/photos/18nR85wWyLY',
-        'rain' : 'https://unsplash.com/photos/7D4KybyRgyk',
-        'snow' : 'https://unsplash.com/photos/SH4GNXNj1RA',
-        'sleet' : 'https://unsplash.com/photos/dXWRATKqz2k',
-        'wind' : 'https://unsplash.com/photos/mi1Az-fWbo8',
-        'fog' : 'https://unsplash.com/photos/aSCx7M1E4Vo',
-        'cloudy' : 'https://unsplash.com/photos/pbxwxwfI0B4',
-        'partly-cloudy-day' : 'https://unsplash.com/photos/wgLPy2YBXuc',
-        'partly-cloudy-night' : 'https://unsplash.com/photos/aI1tDC8PaLM'
-    }
+    icon_database = [
+        { 'name' : 'clear-day','link' : 'https://images.unsplash.com/photo-1522518961115-07c922089dd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d6304d66e4c9199d1b80fbd5581f9538&auto=format&fit=crop&w=668&q=80'},
+        { 'name' : 'clear-night', 'link' : 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b755064e507b39cc84a0fe8ec71e1e0&auto=format&fit=crop&w=1350&q=80'},
+        { 'name' : 'rain', 'link' : 'https://images.unsplash.com/photo-1517842187497-033b8b8cea1e?ixlib=rb-0.3.5&s=12c41e56a023d84e7d4ed05eb28b11b2&auto=format&fit=crop&w=668&q=80'},
+        { 'name' : 'snow', 'link' : 'https://images.unsplash.com/photo-1511131341194-24e2eeeebb09?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ca564acbbaae2f5f6f2f230a8822ea52&auto=format&fit=crop&w=1350&q=80'},
+        { 'name' : 'sleet', 'link' : 'https://images.unsplash.com/photo-1507181080368-cc2195abcde1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=978125364de8367b8209b7b9a7e1fad5&auto=format&fit=crop&w=1778&q=80'},
+        { 'name' : 'wind', 'link' : 'https://images.unsplash.com/photo-1530466273513-3626af215477?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0027c02f3703403f20a342d59a04bb5&auto=format&fit=crop&w=668&q=80'},
+        { 'name' : 'fog', 'link' : 'https://images.unsplash.com/photo-1519982714547-54ccfb2c121e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8426b2784b877ef59b32c1e50c0bfeb6&auto=format&fit=crop&w=1373&q=80'},
+        { 'name' : 'cloudy', 'link' : 'https://images.unsplash.com/photo-1500740516770-92bd004b996e?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=060deca22958f2e0baa11467858a1252&auto=format&fit=crop&w=1352&q=80'},
+        { 'name' : 'partly-cloudy-day', 'link' : 'https://images.unsplash.com/photo-1432059964050-d4eba2ef368a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b6e8e41824f404aa1c158ea165764076&auto=format&fit=crop&w=1778&q=80'},
+        { 'name' : 'partly-cloudy-night', 'link' : 'https://images.unsplash.com/photo-1429305336325-b84ace7eba3b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=91549c9ca63cdfdc0470b956c22edfdf&auto=format&fit=crop&w=1350&q=80'}
+    ]
+    matches = [d['link'] for d in icon_database if d['name'] == weather_icon]
+    picture = str(matches[0])
     weather_info = [{
         'temperature' : temperature,
         'max' : temperatureMax,
         'min' : temperatureMin,
         'rain' : rain_commentary
     }]
-    stock= icon_database[weather_icon]
     response_object['location'] = str(weather_title)
-    response_object['picture'] = stock
     response_object['info'] = weather_info
+    response_object['pic'] = picture
+    response_object['icon'] = weather_icon
     return jsonify(response_object)
 if __name__ == '__main__':
     app.run()

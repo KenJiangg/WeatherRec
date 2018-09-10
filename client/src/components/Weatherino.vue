@@ -51,14 +51,14 @@
     </b-form>
   </b-modal>
   <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
-    <b-card v-bind:src = "picture" >
     <table class = "table table-hover">
       <tbody>
         <tr v-for="(info, index) in info" :key="index">
-          <td> {{ location }} : {{  icon  }} </td>
-          <td> {{ info.temperature }}°F </td>
+          <td> {{ location }} </td>
+          <button type="button" class="btn btn-outline-dark btn-sm" v-b-modal.loc-weather-icon-modal>{{ icon }}</button>
         </tr>
         <tr v-for="(info, index) in info" :key="index">
+          <td> {{ info.temperature }}°F </td>
           <td> Maximum : {{ info.max }}°F </td>
           <td> Minimum : {{ info.min }}°F </td>
         </tr>
@@ -67,7 +67,9 @@
         </tr>
       </tbody>
     </table>
-    </b-card>
+  </b-modal>
+  <b-modal ref="openWeatherIconModal" id="loc-weather-icon-modal" hide-footer>
+    <img :src="pic" style="max-width:30%;max-height:100%;text-align:center;"/>
   </b-modal>
 </div>
 </template>
@@ -92,7 +94,8 @@ export default{
       },
       location: '',
       info: [],
-      picture: '',
+      pic: '',
+      icon: '',
     };
   },
   components: {
@@ -203,7 +206,7 @@ export default{
       axios.put(path, payload)
         .then((res) => {
           this.location = res.data.location;
-          this.icon = res.data.icon;
+          this.pic = res.data.pic;
           this.info = res.data.info;
         })
         .catch((error) => {
