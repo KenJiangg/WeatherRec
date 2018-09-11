@@ -81,11 +81,14 @@ def openWeather():
     temperatureMax = data['daily']['data'][0]['temperatureHigh']
     temperatureMin = data['daily']['data'][0]['temperatureLow']
     RAIN_WARNING = data['daily']['data'][0]['precipProbability']
-    if RAIN_WARNING == 0:
+    PRECIP_WARNING = data['daily']['data'][0]['precipType']
+    highWinds = data['daily']['data'][0]['windSpeed']
+
+    if RAIN_WARNING == 0 and PRECIP_WARNING == 'rain':
         rain_commentary = "No rain today"
-    elif 0 < RAIN_WARNING <= .5:
+    elif 0 < RAIN_WARNING <= .5 and PRECIP_WARNING == 'rain':
         rain_commentary = "Unlikely to rain but grab your umbrella if you're wary"
-    elif  RAIN_WARNING > .5:
+    elif  RAIN_WARNING > .5 and PRECIP_WARNING == 'rain':
         rain_commentary = "Grab your umbrella, you'll need it"
     
     icon_database = [
@@ -109,19 +112,32 @@ def openWeather():
         'rain' : rain_commentary
     }]
     recAlbum_database = [
-        { 'name' : 'weather1', 'link' : ''},
-        { 'name' : 'weather2', 'link' : ''},
-        { 'name' : 'weather3', 'link' : ''},
-        { 'name' : 'weather4', 'link' : ''},
-        { 'name' : 'weather5', 'link' : ''},
-        { 'name' : 'weather6', 'link' : ''},
-        { 'name' : 'weather7', 'link' : ''},
-        { 'name' : 'weather8', 'link' : ''}
+        { 'name' : 'weatherRain', 'link' : 'https://imgur.com/a/2gTNq'},
+        { 'name' : 'weatherSnow', 'link' : 'https://imgur.com/a/D5ypX'},
+        { 'name' : 'weatherCold', 'link' : 'https://imgur.com/a/9KoGi'},
+        { 'name' : 'weatherWarm', 'link' : 'https://imgur.com/a/tpDEZ'},
+        { 'name' : 'weatherBreezy', 'link' : 'https://imgur.com/a/0EhTi'},
+        { 'name' : 'weatherNormal', 'link' : 'https://imgur.com/a/Aao8j'},
     ] 
+    clothes = ""
+    if int(temperature) > 70:
+        clothes = 'weatherWarm'
+    if int(temperature) < 70 and int(temperature) > 40:
+        clothes = 'weatherNormal'
+    if int(temperature) < 40:
+        clothes = 'weatherCold'
+    if highWinds > 25:
+        clothes = 'weatherBreezy'
+    if RAIN_WARNING > .5 and PRECIP_WARNING == 'rain':
+        clothes = 'weatherRain'
+    if PRECIP_WARNING == 'snow':
+        clothes = 'weatherSnow'
+    recMatch= [d['link'] for d in recAlbum_database if d['name'] == clothes]
     response_object['location'] = str(weather_title)
     response_object['info'] = weather_info
     response_object['pic'] = picture
     response_object['icon'] = weather_icon
+    response_object['rec'] = recMatch
     return jsonify(response_object)
 if __name__ == '__main__':
     app.run()

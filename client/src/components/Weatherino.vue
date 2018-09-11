@@ -56,6 +56,7 @@
         <tr v-for="(info, index) in info" :key="index">
           <td> {{ location }} </td>
           <button type="button" class="btn btn-outline-dark btn-sm" v-b-modal.loc-weather-icon-modal>VisuWeather</button>
+          <button type="button" class="btn btn-outline-primary btn-sm" v-b-modal.rec-weather-modal>RecClothing</button>
         </tr>
         <tr v-for="(info, index) in info" :key="index">
           <td> {{ info.temperature }}°F </td>
@@ -69,7 +70,10 @@
     </table>
   </b-modal>
   <b-modal ref="openWeatherIconModal" id="loc-weather-icon-modal" hide-footer>
-    <img :src="pic" style="max-width:30%;max-height:100%;text-align:center;"/>
+    <img :src="pic" style="max-width:100%;max-height:100%;text-align:center;"/>
+  </b-modal>
+  <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
+    <img :src="rec"/>
   </b-modal>
 </div>
 </template>
@@ -96,6 +100,7 @@ export default{
       info: [],
       pic: '',
       icon: '',
+      rec: '',
     };
   },
   components: {
