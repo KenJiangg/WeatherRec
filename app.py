@@ -3,7 +3,6 @@ from flask_cors import CORS
 from geolocation.main import GoogleMaps 
 import uuid
 import requests
-
 # configuration
 DEBUG = True
 
@@ -67,14 +66,14 @@ def openWeather():
     response_object = {'status' : 'success'}
     # Google Maps API #
     weather_title = request.json['title']
-    google_maps = GoogleMaps(api_key='AIzaSyA5woJnkAkBYXLBgrTv9CX9j_C0Lrv6yvY') #API KEY
+    google_maps = GoogleMaps(api_key=##INSERT API KEY ### ) #API KEY
     location = google_maps.search(location=weather_title) # sends search to Google Maps.
     mylocation=location.first() #uses first location query  
     lat=mylocation.lat
     lng=mylocation.lng 
 
     # Dark Sky API # 
-    response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
+    response = requests.get('https://api.darksky.net/forecast/##INSERT API KEY ###/' + str(lat) + ',' + str(lng))
     data = response.json()
     weather_icon = str(data['currently']['icon'])
     temperature = str(int(data['currently']['temperature']))
