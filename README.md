@@ -3,7 +3,8 @@ Built a web application that tracks weather for multiple locations and recommend
 <br/>
 # A previous demo on the application and screenshots 
 <br/>
-<a href="https://streamable.com/j9q25"> Demo </a>
+<a href="https://streamable.com/j9q25"> Demo of WeatherRec Project </a>
+<br/><br/>
 <br/>
 Main Page <br/>
 <img src="https://i.imgur.com/jlJ7jLe.png"/>
