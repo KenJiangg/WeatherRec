@@ -80,68 +80,70 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import axios from 'axios';
-import Alert from './Alert';
+import axios from "axios";
+import Alert from "./Alert";
 
-export default{
+export default {
   data() {
     return {
       yourLoc: [],
       addLocForm: {
-        title: '',
+        title: ""
       },
-      message: '',
+      message: "",
       showMessage: false,
       editForm: {
-        id: '',
-        title: '',
+        id: "",
+        title: ""
       },
-      location: '',
+      location: "",
       info: [],
-      pic: '',
-      icon: '',
-      rec: '',
+      pic: "",
+      icon: "",
+      rec: ""
     };
   },
   components: {
-    alert: Alert,
+    alert: Alert
   },
   methods: {
     getLoc() {
-      const path = 'http://localhost:5000/index';
-      axios.get(path)
-        .then((res) => {
+      const path = "http://localhost:5000/index";
+      axios
+        .get(path)
+        .then(res => {
           this.yourLoc = res.data.yourLoc;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.error(error);
         });
     },
     addLoc(payload) {
-      const path = 'http://localhost:5000/index';
-      axios.post(path, payload)
+      const path = "http://localhost:5000/index";
+      axios
+        .post(path, payload)
         .then(() => {
           this.getLoc();
-          this.message = 'Location Added';
+          this.message = "Location Added";
           this.showMessage = true;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.error(error);
           this.getLoc();
         });
     },
     initForm() {
-      this.addLocForm.title = '';
-      this.editForm.id = '';
-      this.editForm.title = '';
+      this.addLocForm.title = "";
+      this.editForm.id = "";
+      this.editForm.title = "";
     },
     onSubmit(evt) {
       evt.preventDefault();
       this.$refs.addLocModal.hide();
       const payload = {
-        title: this.addLocForm.title,
+        title: this.addLocForm.title
       };
       this.addLoc(payload);
       this.initForm();
@@ -158,19 +160,20 @@ export default{
       evt.preventDefault();
       this.$refs.editLocModal.hide();
       const payload = {
-        title: this.editForm.title,
+        title: this.editForm.title
       };
       this.updateLoc(payload, this.editForm.id);
     },
     updateLoc(payload, locID) {
       const path = `http://localhost:5000/index/${locID}`;
-      axios.put(path, payload)
-        .then((res) => {
+      axios
+        .put(path, payload)
+        .then(res => {
           this.getLoc();
-          this.message = 'Location updated';
+          this.message = "Location updated";
           this.showMessage = true;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.error(error);
           this.getLoc();
@@ -184,13 +187,14 @@ export default{
     },
     removeLoc(locID) {
       const path = `http://localhost:5000/index/${locID}`;
-      axios.delete(path)
+      axios
+        .delete(path)
         .then(() => {
           this.getLoc();
-          this.message = 'Location removed!';
+          this.message = "Location removed!";
           this.showMessage = true;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.error(error);
           this.getLoc();
@@ -202,27 +206,28 @@ export default{
     onWeather(evt) {
       evt.preventDefault();
       const payload = {
-        title: this.loc.title,
+        title: this.loc.title
       };
       this.openWeather(payload);
     },
     openWeather(payload) {
-      const path = 'http://localhost:5000/index/weather';
-      axios.put(path, payload)
-        .then((res) => {
+      const path = "http://localhost:5000/index/weather";
+      axios
+        .put(path, payload)
+        .then(res => {
           this.location = res.data.location;
           this.pic = res.data.pic;
           this.info = res.data.info;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.error(error);
           this.getLoc();
         });
-    },
+    }
   },
   created() {
     this.getLoc();
-  },
+  }
 };
 </script>

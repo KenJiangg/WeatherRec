@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App"
 };
 </script>
 
@@ -15,12 +15,11 @@ export default {
   margin-top: 35px;
   align-items: center;
 }
-#head{
-  text-align:center;
-  margin-top:30px;
+#head {
+  text-align: center;
+  margin-top: 30px;
 }
-#alert{
-  width:19%;
+#alert {
+  width: 19%;
 }
-
 </style>

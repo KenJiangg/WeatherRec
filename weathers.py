@@ -20,16 +20,29 @@ recAlbum_database = [
     { 'name' : 'weatherBreezy', 'link' : 'https://imgur.com/a/0EhTi'},
     { 'name' : 'weatherNormal', 'link' : 'https://imgur.com/a/Aao8j'},
 ] 
-
+key = '41e4fb5354be4849ac0149710c4e3515'
+geocoder = OpenCageGeocode(key)
+def getLats(weather_title):
+    result = geocoder.geocode(weather_title)
+    firstloc = result[0]
+    arr = []
+    arr.append(firstloc['geometry']['lat'])
+    arr.append(firstloc['geometry']['lng'])
+    return arr 
+    
 def getWeather(weather_title):
     response_object = {'status' : 'success'}
+    '''
     key = '41e4fb5354be4849ac0149710c4e3515'
     geocoder = OpenCageGeocode(key)
     result = geocoder.geocode(weather_title)
     firstloc = result[0]
     lat=firstloc['geometry']['lat']
     lng=firstloc['geometry']['lng']
-
+    '''
+    arr = getLats(weather_title)
+    lat = arr[0]
+    lng = arr[1]
     # Dark Sky API # 
     response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
     data = response.json()
