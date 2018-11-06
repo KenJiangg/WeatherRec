@@ -104,7 +104,7 @@ def openWeather():
     RAIN_WARNING = data['daily']['data'][0]['precipProbability']
     PRECIP_WARNING = data['daily']['data'][0]['precipType']
     highWinds = data['daily']['data'][0]['windSpeed']
-    
+    #####
     #Rain Commentary #
     if RAIN_WARNING == 0 and PRECIP_WARNING == 'rain':
         rain_commentary = "No rain today"
