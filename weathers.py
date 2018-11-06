@@ -1,29 +1,6 @@
-from flask import Flask, jsonify, request, render_template
-from flask_cors import CORS 
-import uuid
 import requests
-import weathers 
-# configuration
-# instantiate the app
-app = Flask(__name__)
-app.config.from_object(__name__)
+from opencage.geocoder import OpenCageGeocode
 
-# enable CORS
-CORS(app)
-
-
-# sanity check route
-LOCATIONS = [
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'Buffalo',
-    },
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'New York City',
-    }
-]
-'''
 icon_database = [
     { 'name' : 'clear-day','link' : 'https://images.unsplash.com/photo-1522518961115-07c922089dd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d6304d66e4c9199d1b80fbd5581f9538&auto=format&fit=crop&w=668&q=80'},
     { 'name' : 'clear-night', 'link' : 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b755064e507b39cc84a0fe8ec71e1e0&auto=format&fit=crop&w=1350&q=80'},
@@ -43,54 +20,9 @@ recAlbum_database = [
     { 'name' : 'weatherBreezy', 'link' : 'https://imgur.com/a/0EhTi'},
     { 'name' : 'weatherNormal', 'link' : 'https://imgur.com/a/Aao8j'},
 ] 
-'''
 
-#Gets the list of current cities and can also be used to add new cities
-@app.route('/index', methods=['GET', 'POST'])
-def all_weather():
-    response_object = {'status': 'success'}
-    if request.method == 'POST':
-        LOCATION = {
-            'id': uuid.uuid4().hex,
-            'title':request.json['title']
-        }
-        LOCATIONS.append(LOCATION)
-        response_object['message'] = 'Location added!'
-    else:
-        response_object['yourLoc'] = LOCATIONS
-    return jsonify(response_object)
-
-#Deletes and Updates Cities in the list 
-@app.route('/index/<loc_ID>', methods=['PUT', 'DELETE'])
-def single_location(loc_ID):
-    response_object = {'status': 'success'}
-    if request.method == 'PUT':
-        remove_location(loc_ID)
-        LOCATION = {
-            'id': uuid.uuid4().hex,
-            'title':request.json['title']
-        }
-        LOCATIONS.append(LOCATION)
-        response_object['message'] = 'Location updated!'
-    if request.method == 'DELETE':
-        remove_location(loc_ID)
-        response_object['message'] = 'Location removed!'
-    return jsonify(response_object)
-def remove_location(loc_ID):
-    for loc in LOCATIONS:
-        if loc['id'] == loc_ID:
-            LOCATIONS.remove(loc)
-            return True
-    return False
-
-#Weather Dashboard Back-end
-@app.route('/index/weather', methods=['PUT'])
-def openWeather():
-    #response_object = {'status' : 'success'}
-    # Google Maps API #
-    weather_title = request.json['title']
-    response_object = weathers.getWeather(weather_title)
-    '''
+def getWeather(weather_title):
+    response_object = {'status' : 'success'}
     key = '41e4fb5354be4849ac0149710c4e3515'
     geocoder = OpenCageGeocode(key)
     result = geocoder.geocode(weather_title)
@@ -151,7 +83,4 @@ def openWeather():
     response_object['pic'] = picture
     response_object['icon'] = weather_icon
     response_object['rec'] = recMatch
-    '''
-    return jsonify(response_object)
-if __name__ == '__main__':
-    app.run(debug = True)
+    return response_object
