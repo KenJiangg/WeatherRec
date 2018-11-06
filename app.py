@@ -1,11 +1,9 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS 
-from geolocation.main import GoogleMaps 
+from opencage.geocoder import OpenCageGeocode
 import uuid
 import requests
 # configuration
-DEBUG = True
-
 # instantiate the app
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -89,14 +87,15 @@ def openWeather():
     response_object = {'status' : 'success'}
     # Google Maps API #
     weather_title = request.json['title']
-    google_maps = GoogleMaps(api_key='INSERT API KEY HERE') #API KEY
-    location = google_maps.search(location=weather_title) # sends search to Google Maps.
-    mylocation=location.first() #uses first location query  
-    lat=mylocation.lat
-    lng=mylocation.lng 
+    key = '41e4fb5354be4849ac0149710c4e3515'
+    geocoder = OpenCageGeocode(key)
+    result = geocoder.geocode(weather_title)
+    firstloc = result[0]
+    lat=firstloc['geometry']['lat']
+    lng=firstloc['geometry']['lng']
 
     # Dark Sky API # 
-    response = requests.get('https://api.darksky.net/forecast/INSERT API KEY HERE/' + str(lat) + ',' + str(lng))
+    response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
     data = response.json()
     weather_icon = str(data['currently']['icon'])
     temperature = str(int(data['currently']['temperature']))
@@ -150,4 +149,4 @@ def openWeather():
     response_object['rec'] = recMatch
     return jsonify(response_object)
 if __name__ == '__main__':
-    app.run()
+    app.run(debug = True)
