@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 /* eslint-disable */
 import "bootstrap/dist/css/bootstrap.css";
+import "leaflet/dist/leaflet.css";
 import Vue from "vue";
 import L from "leaflet";
 import BootstrapVue from "bootstrap-vue";
