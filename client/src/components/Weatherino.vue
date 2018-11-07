@@ -17,7 +17,7 @@
         <td>{{ loc.title }}</td>
         <td>
           <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
-          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
+          <!-- <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button> -->
           <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button>
         </td>
         </b-card>
@@ -75,6 +75,7 @@
   <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
     <img :src="rec"/>
   </b-modal>
+  <simpmaps></simpmaps>
 </div>
 </template>
 
@@ -82,6 +83,7 @@
 /* eslint-disable */
 import axios from "axios";
 import Alert from "./Alert";
+import Maps from "./Maps";
 
 export default {
   data() {
@@ -104,7 +106,8 @@ export default {
     };
   },
   components: {
-    alert: Alert
+    alert: Alert,
+    simpmaps : Maps
   },
   methods: {
     getLoc() {

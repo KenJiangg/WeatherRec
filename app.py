@@ -51,6 +51,7 @@ def all_weather():
 @app.route('/index/<loc_ID>', methods=['PUT', 'DELETE'])
 def single_location(loc_ID):
     response_object = {'status': 'success'}
+    '''
     if request.method == 'PUT':
         remove_location(loc_ID)
         LOCATION = {
@@ -59,6 +60,7 @@ def single_location(loc_ID):
         }
         LOCATIONS.append(LOCATION)
         response_object['message'] = 'Location updated!'
+    '''
     if request.method == 'DELETE':
         remove_location(loc_ID)
         response_object['message'] = 'Location removed!'
