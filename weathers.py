@@ -24,12 +24,15 @@ key = '41e4fb5354be4849ac0149710c4e3515'
 geocoder = OpenCageGeocode(key)
 def getLats(weather_title):
     result = geocoder.geocode(weather_title)
-    firstloc = result[0]
-    arr = []
-    arr.append(firstloc['geometry']['lat'])
-    arr.append(firstloc['geometry']['lng'])
-    return arr 
-    
+    if len(result) > 0:
+        firstloc = result[0]
+        arr = []
+        arr.append(firstloc['geometry']['lat'])
+        arr.append(firstloc['geometry']['lng'])
+        return arr 
+    else:
+        string = 'not valid'
+        return string 
 def getWeather(weather_title):
     response_object = {'status' : 'success'}
     '''

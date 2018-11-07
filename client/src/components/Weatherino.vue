@@ -79,7 +79,7 @@
 </template>
 
 <script>
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 import axios from "axios";
 import Alert from "./Alert";
 
@@ -113,6 +113,7 @@ export default {
         .get(path)
         .then(res => {
           this.yourLoc = res.data.yourLoc;
+          this.message = res.data.message;
         })
         .catch(error => {
           // eslint-disable-next-line
@@ -125,7 +126,6 @@ export default {
         .post(path, payload)
         .then(() => {
           this.getLoc();
-          this.message = "Location Added";
           this.showMessage = true;
         })
         .catch(error => {

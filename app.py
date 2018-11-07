@@ -23,20 +23,28 @@ LOCATIONS = [
         'title': 'New York City',
     }
 ]
-
+ERROR = [1]
 #Gets the list of current cities and can also be used to add new cities
 @app.route('/index', methods=['GET', 'POST'])
 def all_weather():
     response_object = {'status': 'success'}
     if request.method == 'POST':
-        LOCATION = {
-            'id': uuid.uuid4().hex,
-            'title':request.json['title']
-        }
-        LOCATIONS.append(LOCATION)
-        response_object['message'] = 'Location added!'
+        ifvalid = weathers.getLats(request.json['title'])
+        if len(ifvalid) == 2:
+            LOCATION = {
+                'id': uuid.uuid4().hex,
+                'title':request.json['title']
+            }
+            LOCATIONS.append(LOCATION)
+            ERROR.append(1)
+        else:
+            ERROR.append(0)
     else:
         response_object['yourLoc'] = LOCATIONS
+        if ERROR[-1] == 1:
+            response_object['message'] = 'Location Added!'
+        elif ERROR[-1] == 0:
+            response_object['message'] = 'Location entered is not valid!'
     return jsonify(response_object)
 
 #Deletes and Updates Cities in the list 
