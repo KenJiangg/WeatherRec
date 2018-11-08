@@ -4,13 +4,13 @@
     <l-map :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker
-      v-for="(marker, index) in markers"
-      :key="index"
+      v-for="marker in markers"
+      :key="marker.text"
       :lat-lng="marker.position"
-      @add="openPopup">
+      >
         <l-popup
         :content="marker.text"
-        :options="{ autoClose: false, closeOnClick: false }">
+        >
         </l-popup>
       </l-marker>
     </l-map>
@@ -45,13 +45,6 @@ export default {
       ]
     };
   },
-  methods: {
-    openPopup: function(event) {
-      Vue.nextTick(() => {
-        event.target.openPopup();
-      });
-    }
-  }
 };
 </script>
 <style>
