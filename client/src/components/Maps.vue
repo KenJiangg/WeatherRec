@@ -12,6 +12,15 @@
           <table class = "table table-hover">
             <tr>
               <td> {{ marker.title }} </td>
+              <td>
+                <img
+                  :src="marker.pic"
+                  style="max-width:100%;max-height:100%;text-align:center;"
+                  /> </td>
+              <!--<button
+                type="button"
+                class="btn btn-outline-dark btn-sm"
+                v-b-modal.loc-weather-icon-modal>VisuWeather</button> -->
             <tr>
               <td> Current: {{ marker.curr }}°F </td>
             </tr>
@@ -21,8 +30,13 @@
             </tr>
           </table>
         </l-popup>
+          <!--<b-modal ref="openWeatherIconModal" id="loc-weather-icon-modal" hide-footer>
+            <p> {{ marker.pic }} </p>
+          <img :src="marker.pic" style="max-width:100%;max-height:100%;text-align:center;"/>
+          </b-modal> -->
       </l-marker>
     </l-map>
+
   </div>
 </body>
 </template>
@@ -34,15 +48,15 @@ import "leaflet/dist/leaflet.css";
 
 export default {
   name: "Example",
-  props: ['lat_long'],
+  props: ["lat_long"],
   components: { LMap, LTileLayer, LMarker, LPopup },
   data() {
     return {
       zoom: 1,
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-/*      markers: [
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      /*      markers: [
         {
           position: L.latLng(47.41322, -1.219482),
           text: "Marker 1"
@@ -55,19 +69,20 @@ export default {
     };
   },
   computed: {
-    markers: function(){
-      var output = []
-      for(var i = 0; i<this.lat_long.length; i++){
+    markers: function() {
+      var output = [];
+      for (var i = 0; i < this.lat_long.length; i++) {
         var obj = {};
-        var current = this.lat_long[i]
-        obj['title'] = current['title']
-        obj['max'] = current['weather']['max']
-        obj['min'] = current['weather']['min']
-        obj['curr'] = current['weather']['temperature']
-        obj['position'] = L.latLng(current['coords'][0],current['coords'][1])
-        output.push(obj)
+        var current = this.lat_long[i];
+        obj["pic"] = current["weather"]["matches"];
+        obj["title"] = current["title"];
+        obj["max"] = current["weather"]["max"];
+        obj["min"] = current["weather"]["min"];
+        obj["curr"] = current["weather"]["temperature"];
+        obj["position"] = L.latLng(current["coords"][0], current["coords"][1]);
+        output.push(obj);
       }
-        return output
+      return output;
     }
   }
 };

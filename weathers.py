@@ -1,7 +1,7 @@
 import requests
 from opencage.geocoder import OpenCageGeocode
 
-'''
+
 icon_database = [
     { 'name' : 'clear-day','link' : 'https://images.unsplash.com/photo-1522518961115-07c922089dd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d6304d66e4c9199d1b80fbd5581f9538&auto=format&fit=crop&w=668&q=80'},
     { 'name' : 'clear-night', 'link' : 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b755064e507b39cc84a0fe8ec71e1e0&auto=format&fit=crop&w=1350&q=80'},
@@ -13,6 +13,7 @@ icon_database = [
     { 'name' : 'partly-cloudy-day', 'link' : 'https://images.unsplash.com/photo-1432059964050-d4eba2ef368a?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b6e8e41824f404aa1c158ea165764076&auto=format&fit=crop&w=1778&q=80'},
     { 'name' : 'partly-cloudy-night', 'link' : 'https://images.unsplash.com/photo-1429305336325-b84ace7eba3b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=91549c9ca63cdfdc0470b956c22edfdf&auto=format&fit=crop&w=1350&q=80'}
 ]
+'''
 recAlbum_database = [
     { 'name' : 'weatherRain', 'link' : 'https://imgur.com/a/2gTNq'},
     { 'name' : 'weatherSnow', 'link' : 'https://imgur.com/a/D5ypX'},
@@ -51,7 +52,7 @@ def getWeather(weather_title):
     # Dark Sky API # 
     response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
     data = response.json()
-    #weather_icon = str(data['currently']['icon'])
+    weather_icon = str(data['currently']['icon'])
     temperature = str(int(data['currently']['temperature']))
     temperatureMax = data['daily']['data'][0]['temperatureHigh']
     temperatureMin = data['daily']['data'][0]['temperatureLow']
@@ -69,7 +70,8 @@ def getWeather(weather_title):
         rain_commentary = "Grab your umbrella, you'll need it"
     '''
     #matches the weather icon with a picture related to the weather (one of fifteen)
-    #matches = [d['link'] for d in icon_database if d['name'] == weather_icon]  
+    matches = [d['link'] for d in icon_database if d['name'] == weather_icon]
+    matches = matches[0]
     #picture = str(matches[0])
 
     #packing the weather info into a dictionary 
@@ -77,7 +79,7 @@ def getWeather(weather_title):
         'temperature' : temperature,
         'max' : temperatureMax,
         'min' : temperatureMin,
-        #'rain' : rain_commentary
+        'matches' : matches
     }
 
     #matches the weather information to a clothing album (one of ten)

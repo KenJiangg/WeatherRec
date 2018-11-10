@@ -100,4 +100,4 @@ def openWeather():
     response_object = weathers.getWeather(weather_title)
     return jsonify(response_object)
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run()
