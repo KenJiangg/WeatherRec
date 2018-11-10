@@ -50,8 +50,10 @@ export default {
   components: { LMap, LTileLayer, LMarker, LPopup },
   data() {
     return {
-      zoom: 1,
+      zoom: 2,
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      /*bounds: L.latLngBounds(bounds.bounds),
+      maxBounds: L.latLngBounds(bounds.bounds),*/
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       /*      markers: [
@@ -81,7 +83,32 @@ export default {
         output.push(obj);
       }
       return output;
-    }
+    },
+/*
+    bounds: function(){
+      var bounds = {}
+      var mostleft = this.lat_long[0]['coords'][0]
+      var mostright = this.lat_long[0]['coords'][0]
+      var mostnorth = this.lat_long[0]['coords'][1]
+      var mostsouth = this.lat_long[0]['coords'][1]
+      for (var i = 0; i<this.lat_long.length; i++){
+        var current = this.lat_long[i];
+        if (current['coords'][0] < mostleft){
+          mostleft = current['coords']
+        }
+        if (current['coords'][0] > mostright){
+          mostright = current['coords']
+        }
+        if (current['coords'][1] < mostsouth){
+          mostsouth = current['coords']
+        }
+        if (current['coords'][1] > mostnorth){
+          mostnorth = current['coords']
+        }
+      }
+      bounds['bounds'] = [[mostleft,mostsouth],[mostright,mostnorth]]
+      return bounds
+    }*/
   }
 };
 </script>
@@ -89,8 +116,8 @@ export default {
 html,
 body,
 #app {
-  height: 97%;
+  height: 94%;
   width: 90%;
-  align-content: center;
+  margin-left: 50px;
 }
 </style>

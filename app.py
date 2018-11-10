@@ -36,27 +36,32 @@ COORDS = [
         "weather": weathers.getWeather("New York City")
     },
 ]
+LOWKEY = ['Buffalo','New York City']
 #Gets the list of current cities and can also be used to add new cities
 @app.route('/index', methods=['GET', 'POST'])
 def all_weather():
     response_object = {'status': 'success'}
     if request.method == 'POST':
-        ifvalid = weathers.getLats(request.json['title'])
-        if len(ifvalid) == 2:
-            LOCATION = {
-                'id': uuid.uuid4().hex,
-                'title':request.json['title']
-            }
-            LOCATIONS.append(LOCATION)
-            COORD = {
-                "coords" : ifvalid,
-                "title": request.json['title'],
-                "weather": weathers.getWeather(request.json['title'])
-            }
-            COORDS.append(COORD)
-            ERROR.append(1)
+        if request.json['title'] in LOWKEY: 
+            ERROR.append(2)
         else:
-            ERROR.append(0)
+            ifvalid = weathers.getLats(request.json['title'])
+            if len(ifvalid) == 2:
+                LOCATION = {
+                    'id': uuid.uuid4().hex,
+                    'title':request.json['title']
+                }
+                LOCATIONS.append(LOCATION)
+                COORD = {
+                    "coords" : ifvalid,
+                    "title": request.json['title'],
+                    "weather": weathers.getWeather(request.json['title'])
+                }
+                COORDS.append(COORD)
+                LOWKEY.append(request.json['title'])
+                ERROR.append(1)
+            else:
+                ERROR.append(0)
     else:
         response_object['yourLoc'] = LOCATIONS
         response_object['lat_long'] =  COORDS
@@ -64,6 +69,8 @@ def all_weather():
             response_object['message'] = 'Location Added!'
         elif ERROR[-1] == 0:
             response_object['message'] = 'Location entered is not valid!'
+        elif ERROR[-1] == 2:
+            response_object['message'] = 'Location already entered'
     return jsonify(response_object)
 
 #Deletes and Updates Cities in the list 

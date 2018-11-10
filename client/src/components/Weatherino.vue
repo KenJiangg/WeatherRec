@@ -4,6 +4,7 @@
   <alert :message= "message" v-if= "showMessage"></alert>
   <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
   <br><br>
+  <!--
   <table id = "table" class="table table-hover">
     <thead>
       <tr>
@@ -17,13 +18,14 @@
         <td>{{ loc.title }}</td>
         <td>
           <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
-          <!-- <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button> -->
+          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
           <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button>
         </td>
         </b-card>
       </tr>
     </tbody>
   </table>
+  -->
   <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
     <b-form @submit="onSubmit" @reset="onReset" class="w-100">
       <b-form-group id="form-title-group"
@@ -40,6 +42,7 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-modal>
+  <!--
   <b-modal ref="editLocModal" id="loc-update-modal" title="Update" hide-footer>
     <b-form @submit= "onSubmitUpdate" @reset= "onResetUpdate" class="w-100">
       <b-form-group id= "form-title-edit-group" label = "Location:" label-for= "form-title-edit-input">
@@ -75,9 +78,8 @@
   <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
     <img :src="rec"/>
   </b-modal>
+  -->
   <simpmaps :lat_long= "lat_long"></simpmaps>
-  <p>
-    {{ lat_long }}</p>
 </div>
 </template>
 
