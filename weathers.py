@@ -1,6 +1,7 @@
 import requests
 from opencage.geocoder import OpenCageGeocode
 
+'''
 icon_database = [
     { 'name' : 'clear-day','link' : 'https://images.unsplash.com/photo-1522518961115-07c922089dd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d6304d66e4c9199d1b80fbd5581f9538&auto=format&fit=crop&w=668&q=80'},
     { 'name' : 'clear-night', 'link' : 'https://images.unsplash.com/photo-1532978379173-523e16f371f2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b755064e507b39cc84a0fe8ec71e1e0&auto=format&fit=crop&w=1350&q=80'},
@@ -20,6 +21,7 @@ recAlbum_database = [
     { 'name' : 'weatherBreezy', 'link' : 'https://imgur.com/a/0EhTi'},
     { 'name' : 'weatherNormal', 'link' : 'https://imgur.com/a/Aao8j'},
 ] 
+'''
 key = '41e4fb5354be4849ac0149710c4e3515'
 geocoder = OpenCageGeocode(key)
 def getLats(weather_title):
@@ -34,7 +36,7 @@ def getLats(weather_title):
         string = 'not valid'
         return string 
 def getWeather(weather_title):
-    response_object = {'status' : 'success'}
+    response_object = {}
     '''
     key = '41e4fb5354be4849ac0149710c4e3515'
     geocoder = OpenCageGeocode(key)
@@ -49,35 +51,37 @@ def getWeather(weather_title):
     # Dark Sky API # 
     response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
     data = response.json()
-    weather_icon = str(data['currently']['icon'])
+    #weather_icon = str(data['currently']['icon'])
     temperature = str(int(data['currently']['temperature']))
     temperatureMax = data['daily']['data'][0]['temperatureHigh']
     temperatureMin = data['daily']['data'][0]['temperatureLow']
-    RAIN_WARNING = data['daily']['data'][0]['precipProbability']
-    PRECIP_WARNING = data['daily']['data'][0]['precipType']
-    highWinds = data['daily']['data'][0]['windSpeed']
+    #RAIN_WARNING = data['daily']['data'][0]['precipProbability']
+    #PRECIP_WARNING = data['daily']['data'][0]['precipType']
+    #highWinds = data['daily']['data'][0]['windSpeed']
     #####
     #Rain Commentary #
+    '''
     if RAIN_WARNING == 0 and PRECIP_WARNING == 'rain':
         rain_commentary = "No rain today"
     elif 0 < RAIN_WARNING <= .5 and PRECIP_WARNING == 'rain':
         rain_commentary = "Unlikely to rain but grab your umbrella if you're wary"
     elif  RAIN_WARNING > .5 and PRECIP_WARNING == 'rain':
         rain_commentary = "Grab your umbrella, you'll need it"
-    
+    '''
     #matches the weather icon with a picture related to the weather (one of fifteen)
-    matches = [d['link'] for d in icon_database if d['name'] == weather_icon]  
-    picture = str(matches[0])
+    #matches = [d['link'] for d in icon_database if d['name'] == weather_icon]  
+    #picture = str(matches[0])
 
     #packing the weather info into a dictionary 
-    weather_info = [{
+    weather_info = {
         'temperature' : temperature,
         'max' : temperatureMax,
         'min' : temperatureMin,
-        'rain' : rain_commentary
-    }]
+        #'rain' : rain_commentary
+    }
 
     #matches the weather information to a clothing album (one of ten)
+    '''
     clothes = ""
     if int(temperature) > 70:
         clothes = 'weatherWarm'
@@ -92,17 +96,12 @@ def getWeather(weather_title):
     if PRECIP_WARNING == 'snow':
         clothes = 'weatherSnow'
     recMatch= [d['link'] for d in recAlbum_database if d['name'] == clothes]
-
+'''
     #stores all the information into a response object and sends information through axios/AJAX 
-    response_object['location'] = str(weather_title)
-    response_object['info'] = weather_info
-    response_object['pic'] = picture
-    response_object['icon'] = weather_icon
-    response_object['rec'] = recMatch
-    return response_object
+#    response_object['location'] = str(weather_title)
+#    response_object['info'] = weather_info
+#    response_object['pic'] = picture
+#    response_object['icon'] = weather_icon
+#    response_object['rec'] = recMatch
+    return weather_info
 
-def getMap(weather_title):
-    obj = {}
-    obj['title'] = weather_title
-    obj['coords'] = getLats(weather_title)
-    return obj

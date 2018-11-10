@@ -27,11 +27,13 @@ ERROR = [1]
 COORDS = [
     {
         "coords": [ 42.8867166, -78.8783922 ],
-        "title": "Buffalo"
+        "title": "Buffalo",
+        "weather": weathers.getWeather("Buffalo")
     },
     {
         "coords": [ 40.7308619, -73.9871558 ],
-        "title": "New York City"
+        "title": "New York City",
+        "weather": weathers.getWeather("New York City")
     },
 ]
 #Gets the list of current cities and can also be used to add new cities
@@ -46,7 +48,12 @@ def all_weather():
                 'title':request.json['title']
             }
             LOCATIONS.append(LOCATION)
-            COORDS.append(weathers.getMap(request.json['title']))
+            COORD = {
+                "coords" : ifvalid,
+                "title": request.json['title'],
+                "weather": weathers.getWeather(request.json['title'])
+            }
+            COORDS.append(COORD)
             ERROR.append(1)
         else:
             ERROR.append(0)

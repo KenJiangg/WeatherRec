@@ -8,9 +8,18 @@
       :key="marker.text"
       :lat-lng="marker.position"
       >
-        <l-popup
-        :content="marker.text"
-        >
+        <l-popup>
+          <table class = "table table-hover">
+            <tr>
+              <td> {{ marker.title }} </td>
+            <tr>
+              <td> Current: {{ marker.curr }}°F </td>
+            </tr>
+            <tr>
+              <td> Max: {{ marker.max }}°F </td>
+              <td> Min: {{ marker.min }}°F </td>
+            </tr>
+          </table>
         </l-popup>
       </l-marker>
     </l-map>
@@ -51,7 +60,10 @@ export default {
       for(var i = 0; i<this.lat_long.length; i++){
         var obj = {};
         var current = this.lat_long[i]
-        obj['text'] = current['title']
+        obj['title'] = current['title']
+        obj['max'] = current['weather']['max']
+        obj['min'] = current['weather']['min']
+        obj['curr'] = current['weather']['temperature']
         obj['position'] = L.latLng(current['coords'][0],current['coords'][1])
         output.push(obj)
       }
