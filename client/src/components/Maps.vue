@@ -9,6 +9,7 @@
       :lat-lng="marker.position"
       >
         <l-popup>
+          <b-card>
           <table class = "table table-hover">
             <tr>
               <td> {{ marker.title }} </td>
@@ -17,10 +18,6 @@
                   :src="marker.pic"
                   style="max-width:100%;max-height:100%;text-align:center;"
                   /> </td>
-              <!--<button
-                type="button"
-                class="btn btn-outline-dark btn-sm"
-                v-b-modal.loc-weather-icon-modal>VisuWeather</button> -->
             <tr>
               <td> Current: {{ marker.curr }}°F </td>
             </tr>
@@ -29,6 +26,7 @@
               <td> Min: {{ marker.min }}°F </td>
             </tr>
           </table>
+        </b-card>
         </l-popup>
           <!--<b-modal ref="openWeatherIconModal" id="loc-weather-icon-modal" hide-footer>
             <p> {{ marker.pic }} </p>
