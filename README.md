@@ -3,7 +3,8 @@ Built a web application that tracks weather for multiple locations and recommend
 <br/>
 # **UPDATED DEMO ** AS OF 11/09/18
 <br/>
-<a href="https://streamable.com/gvlgo"> Demo of WeatherRec Project </a>
+<a href="https://streamable.com/gvlgo"> (WIP) Version of Project (Additional - 11/18)</a>
+<a href="https://streamable.com/j9q25"> Demo of Project(Original Finish - 9/18) </a>
 <br/><br/>
 <br/>
 Main Page <br/>
