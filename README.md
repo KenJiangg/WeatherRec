@@ -1,5 +1,5 @@
 # WeatherRec 
-Built a web application that tracks weather for multiple locations and recommends clothing based on weather. Uses Google Maps API and Dark Sky API to search location and find weather. 
+Built a web application that tracks weather for multiple locations and recommends clothing based on weather. Uses Open Cage API and Dark Sky API to search location and find weather. Some additions I am adding on currently is adding a map feature using Leaflet.js and potentially graphs through python(matplotlib/seaborn) or javascript(D3.js)
 <br/>
 # **UPDATED DEMO ** AS OF 11/09/18
 <br/>
