@@ -24,6 +24,16 @@ LOCATIONS = [
     }
 ]
 ERROR = [1]
+COORDS = [
+    {
+        "coords": [ 42.8867166, -78.8783922 ],
+        "title": "Buffalo"
+    },
+    {
+        "coords": [ 40.7308619, -73.9871558 ],
+        "title": "New York City"
+    },
+]
 #Gets the list of current cities and can also be used to add new cities
 @app.route('/index', methods=['GET', 'POST'])
 def all_weather():
@@ -36,11 +46,13 @@ def all_weather():
                 'title':request.json['title']
             }
             LOCATIONS.append(LOCATION)
+            COORDS.append(weathers.getMap(request.json['title']))
             ERROR.append(1)
         else:
             ERROR.append(0)
     else:
         response_object['yourLoc'] = LOCATIONS
+        response_object['lat_long'] =  COORDS
         if ERROR[-1] == 1:
             response_object['message'] = 'Location Added!'
         elif ERROR[-1] == 0:

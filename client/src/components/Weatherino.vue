@@ -75,7 +75,9 @@
   <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
     <img :src="rec"/>
   </b-modal>
-  <simpmaps></simpmaps>
+  <simpmaps :lat_long= "lat_long"></simpmaps>
+  <p>
+    {{ lat_long }}</p>
 </div>
 </template>
 
@@ -89,6 +91,7 @@ export default {
   data() {
     return {
       yourLoc: [],
+      lat_long: [],
       addLocForm: {
         title: ""
       },
@@ -117,6 +120,7 @@ export default {
         .then(res => {
           this.yourLoc = res.data.yourLoc;
           this.message = res.data.message;
+          this.lat_long = res.data.lat_long;
         })
         .catch(error => {
           // eslint-disable-next-line

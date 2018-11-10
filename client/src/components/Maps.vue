@@ -25,15 +25,15 @@ import "leaflet/dist/leaflet.css";
 
 export default {
   name: "Example",
+  props: ['lat_long'],
   components: { LMap, LTileLayer, LMarker, LPopup },
   data() {
     return {
-      zoom: 10,
-      center: L.latLng(47.41322, -1.219482),
+      zoom: 1,
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      markers: [
+/*      markers: [
         {
           position: L.latLng(47.41322, -1.219482),
           text: "Marker 1"
@@ -42,9 +42,22 @@ export default {
           position: L.latLng(47.31322, -1.219482),
           text: "Marker 2"
         }
-      ]
+      ]*/
     };
   },
+  computed: {
+    markers: function(){
+      var output = []
+      for(var i = 0; i<this.lat_long.length; i++){
+        var obj = {};
+        var current = this.lat_long[i]
+        obj['text'] = current['title']
+        obj['position'] = L.latLng(current['coords'][0],current['coords'][1])
+        output.push(obj)
+      }
+        return output
+    }
+  }
 };
 </script>
 <style>

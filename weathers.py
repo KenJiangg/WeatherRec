@@ -100,3 +100,9 @@ def getWeather(weather_title):
     response_object['icon'] = weather_icon
     response_object['rec'] = recMatch
     return response_object
+
+def getMap(weather_title):
+    obj = {}
+    obj['title'] = weather_title
+    obj['coords'] = getLats(weather_title)
+    return obj
