@@ -106,4 +106,27 @@ def getWeather(weather_title):
 #    response_object['icon'] = weather_icon
 #    response_object['rec'] = recMatch
     return weather_info
-
+def makeGraphData(weather_title):
+    arr = getLats(weather_title)
+    lat = arr[0]
+    lng = arr[1]
+    # Dark Sky API # 
+    response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
+    data = response.json()
+    '''
+    to make graph data work in d3.js, I would need to input a list of coordinates 
+    both y-axis and x-axis in order to graph out a line
+    I will only being doing line graphs because I have previous exp. with it and it
+    shouldn't be too difficult.
+    First, get all the data, we will be using 7 api requests for a line graph and we will 
+    take each request's data and input it into an array. 
+    The loop for api requests I will be using will have to have the import time library
+    so we can retrieve the date and get the next seven days by incrementing on the 
+    forecast date. Luckily the demo date is December 3rd so I don't have to worry about
+    the different months.
+    I will make an dictionary where it will have all the data I need in separate arrays.
+    Array #1 - Precipitation Data (7 data points)
+    Array #2 - Wind Speed Data (7 data points)
+    Array #3 - Dew Point Data (7 data points)
+    Array #4 - Humidity Data (7 data points)
+    '''

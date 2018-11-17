@@ -1,10 +1,10 @@
 <template>
 <!-- eslint-disable max-len -->
 <div id="app">
+  <div id="side">
   <alert :message= "message" v-if= "showMessage"></alert>
   <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
   <br><br>
-  <!--
   <table id = "table" class="table table-hover">
     <thead>
       <tr>
@@ -17,15 +17,14 @@
         <b-card style="max-width: 30rem;">
         <td>{{ loc.title }}</td>
         <td>
-          <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
-          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>
+          <!--<button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
+          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>-->
           <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button>
         </td>
         </b-card>
       </tr>
     </tbody>
   </table>
-  -->
   <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
     <b-form @submit="onSubmit" @reset="onReset" class="w-100">
       <b-form-group id="form-title-group"
@@ -78,8 +77,11 @@
   <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
     <img :src="rec"/>
   </b-modal>
-  -->
+-->
+</div>
+<div id="full_div">
   <simpmaps :lat_long= "lat_long"></simpmaps>
+</div>
 </div>
 </template>
 
@@ -240,3 +242,20 @@ export default {
   }
 };
 </script>
+<style>
+#side{
+  float:left;
+  width:300px;
+}
+#full_div {
+  position: absolute;
+  overflow-x: auto;
+  top: 100px;
+  right: 0;
+  left: 500px;
+  bottom: 0;
+  padding-left: 8px;
+  width: 60%;
+  height:80%;
+}
+</style>
