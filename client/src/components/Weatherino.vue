@@ -17,9 +17,8 @@
         <b-card style="max-width: 30rem;">
         <td>{{ loc.title }}</td>
         <td>
-          <!--<button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
-          <button type="button" class="btn btn-dark btn-sm" v-b-modal.loc-update-modal @click="editLoc(loc)">Update</button>-->
-          <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button>
+          <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
+          <!-- <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button> -->
         </td>
         </b-card>
       </tr>
@@ -41,7 +40,6 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-modal>
-  <!--
   <b-modal ref="editLocModal" id="loc-update-modal" title="Update" hide-footer>
     <b-form @submit= "onSubmitUpdate" @reset= "onResetUpdate" class="w-100">
       <b-form-group id= "form-title-edit-group" label = "Location:" label-for= "form-title-edit-input">
@@ -55,29 +53,21 @@
   <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
     <table class = "table table-hover">
       <tbody>
-        <tr v-for="(info, index) in info" :key="index">
-          <td> {{ location }} </td>
-          <button type="button" class="btn btn-outline-dark btn-sm" v-b-modal.loc-weather-icon-modal>VisuWeather</button>
-          <button type="button" class="btn btn-outline-primary btn-sm" v-b-modal.rec-weather-modal>RecClothing</button>
+        <tr>
+          <td> Preciptation Data : {{ precip }} </td>
         </tr>
-        <tr v-for="(info, index) in info" :key="index">
-          <td> {{ info.temperature }}°F </td>
-          <td> Maximum : {{ info.max }}°F </td>
-          <td> Minimum : {{ info.min }}°F </td>
+        <tr>
+          <td> Wind Speed Data : {{ wind }}</td>
         </tr>
-        <tr v-for="(info, index) in info" :key="index">
-          <td> {{ info.rain }} </td>
+        <tr>
+          <td> Humidity Data : {{ hum }}</td>
+        </tr>
+        <tr>
+          <td> MinMax Data : {{ minMax }} </td>
         </tr>
       </tbody>
     </table>
   </b-modal>
-  <b-modal ref="openWeatherIconModal" id="loc-weather-icon-modal" hide-footer>
-    <img :src="pic" style="max-width:100%;max-height:100%;text-align:center;"/>
-  </b-modal>
-  <b-modal ref="recWeatherModal" id="rec-weather-modal" hide-footer>
-    <img :src="rec"/>
-  </b-modal>
--->
 </div>
 <div id="full_div">
   <simpmaps :lat_long= "lat_long"></simpmaps>
@@ -105,11 +95,10 @@ export default {
         id: "",
         title: ""
       },
-      location: "",
-      info: [],
-      pic: "",
-      icon: "",
-      rec: ""
+      precip: [],
+      wind: [],
+      hum: [],
+      minMax: {}
     };
   },
   components: {
@@ -226,9 +215,10 @@ export default {
       axios
         .put(path, payload)
         .then(res => {
-          this.location = res.data.location;
-          this.pic = res.data.pic;
-          this.info = res.data.info;
+          this.precip = res.data.precip,
+          this.wind = res.data.wind,
+          this.hum = res.data.hum,
+          this.minMax = res.data.minMax
         })
         .catch(error => {
           // eslint-disable-next-line

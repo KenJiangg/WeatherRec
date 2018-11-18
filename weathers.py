@@ -1,6 +1,6 @@
 import requests
 from opencage.geocoder import OpenCageGeocode
-
+import time 
 
 icon_database = [
     { 'name' : 'clear-day','link' : 'https://images.unsplash.com/photo-1522518961115-07c922089dd4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d6304d66e4c9199d1b80fbd5581f9538&auto=format&fit=crop&w=668&q=80'},
@@ -107,12 +107,11 @@ def getWeather(weather_title):
 #    response_object['rec'] = recMatch
     return weather_info
 def makeGraphData(weather_title):
+    response_object = {}
     arr = getLats(weather_title)
     lat = arr[0]
     lng = arr[1]
     # Dark Sky API # 
-    response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
-    data = response.json()
     '''
     to make graph data work in d3.js, I would need to input a list of coordinates 
     both y-axis and x-axis in order to graph out a line
@@ -130,3 +129,22 @@ def makeGraphData(weather_title):
     Array #3 - Dew Point Data (7 data points)
     Array #4 - Humidity Data (7 data points)
     '''
+    response = requests.get('https://api.darksky.net/forecast/de94c907962cc871c040f2f15a3562e1/' + str(lat) + ',' + str(lng))
+    data = response.json()
+    arrays = data['daily']['data']
+    precipData = []
+    windSpeedData = [] 
+    humidityData = []
+    tempData = {'maxTemp': [], 'minTemp' : []}
+    for i in arrays:
+        precipData.append(i['precipProbability'])
+        windSpeedData.append(i['windSpeed'])
+        humidityData.append(i['humidity'])
+        tempData['maxTemp'].append(i['temperatureHigh'])
+        tempData['minTemp'].append(i['temperatureLow'])
+    response_object['precip'] = precipData
+    response_object['wind'] = windSpeedData
+    response_object['hum'] = humidityData
+    response_object['minMax'] = tempData
+    return response_object
+    

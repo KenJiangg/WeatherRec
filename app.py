@@ -104,7 +104,7 @@ def openWeather():
     #response_object = {'status' : 'success'}
     # Google Maps API #
     weather_title = request.json['title']
-    response_object = weathers.getWeather(weather_title)
+    response_object = weathers.makeGraphData(weather_title)
     return jsonify(response_object)
 if __name__ == '__main__':
     app.run()
