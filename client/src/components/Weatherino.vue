@@ -54,7 +54,7 @@
     <table class = "table table-hover">
       <tbody>
         <tr>
-          <td> Preciptation Data : {{ precip }} </td>
+          <td><graphs :precip= "precip"></graphs> </td>
         </tr>
         <tr>
           <td> Wind Speed Data : {{ wind }}</td>
@@ -80,6 +80,7 @@
 import axios from "axios";
 import Alert from "./Alert";
 import Maps from "./Maps";
+import Graph from "./Graph";
 
 export default {
   data() {
@@ -103,7 +104,8 @@ export default {
   },
   components: {
     alert: Alert,
-    simpmaps : Maps
+    simpmaps: Maps,
+    graphs: Graph
   },
   methods: {
     getLoc() {
@@ -215,10 +217,10 @@ export default {
       axios
         .put(path, payload)
         .then(res => {
-          this.precip = res.data.precip,
-          this.wind = res.data.wind,
-          this.hum = res.data.hum,
-          this.minMax = res.data.minMax
+          (this.precip = res.data.precip),
+            (this.wind = res.data.wind),
+            (this.hum = res.data.hum),
+            (this.minMax = res.data.minMax);
         })
         .catch(error => {
           // eslint-disable-next-line
@@ -233,9 +235,9 @@ export default {
 };
 </script>
 <style>
-#side{
-  float:left;
-  width:300px;
+#side {
+  float: left;
+  width: 300px;
 }
 #full_div {
   position: absolute;
@@ -246,6 +248,6 @@ export default {
   bottom: 0;
   padding-left: 8px;
   width: 60%;
-  height:80%;
+  height: 80%;
 }
 </style>
