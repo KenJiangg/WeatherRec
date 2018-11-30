@@ -106,6 +106,7 @@ def getWeather(weather_title):
 #    response_object['icon'] = weather_icon
 #    response_object['rec'] = recMatch
     return weather_info
+
 def makeGraphData(weather_title):
     response_object = {}
     arr = getLats(weather_title)
@@ -135,16 +136,33 @@ def makeGraphData(weather_title):
     precipData = []
     windSpeedData = [] 
     humidityData = []
-    tempData = {'maxTemp': [], 'minTemp' : []}
+    tempData = []
+    arrays.pop()
     for i in arrays:
-        precipData.append(i['precipProbability'])
-        windSpeedData.append(i['windSpeed'])
-        humidityData.append(i['humidity'])
-        tempData['maxTemp'].append(i['temperatureHigh'])
-        tempData['minTemp'].append(i['temperatureLow'])
+        times = i['time']
+        precipData.append({
+            "key": time.strftime("%A",time.gmtime(times)),
+            "value": i['precipProbability'] * 100 
+            })
+        #precipData.append(i['precipProbability'])
+        windSpeedData.append({
+            "key": time.strftime("%A",time.gmtime(times)),
+            "value": i['windSpeed']
+            })
+        humidityData.append({
+            "key": time.strftime("%A",time.gmtime(times)),
+            "value": i['humidity'] * 100
+            })
+        tempData.append({
+            "group": 'MaxTemp',
+            "key": time.strftime("%A",time.gmtime(times)),
+            "value" :i['temperatureHigh']})
+        tempData.append({
+            "group": 'MinTemp',
+            "key": time.strftime("%A",time.gmtime(times)),
+            "value" : i['temperatureLow']})
     response_object['precip'] = precipData
     response_object['wind'] = windSpeedData
     response_object['hum'] = humidityData
     response_object['minMax'] = tempData
     return response_object
-    

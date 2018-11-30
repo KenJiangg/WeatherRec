@@ -1,78 +1,131 @@
 <template>
-<!-- eslint-disable max-len -->
-<div id="app">
-  <div id="side">
-  <alert :message= "message" v-if= "showMessage"></alert>
-  <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
-  <br><br>
-  <table id = "table" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Location</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(loc, index) in yourLoc" :key="index">
-        <b-card style="max-width: 30rem;">
-        <td>{{ loc.title }}</td>
-        <td>
-          <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-weather-modal @click= "openWeather(loc)">Weather</button>
-          <!-- <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button> -->
-        </td>
-        </b-card>
-      </tr>
-    </tbody>
-  </table>
-  <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
-    <b-form @submit="onSubmit" @reset="onReset" class="w-100">
-      <b-form-group id="form-title-group"
-        label="Location:"
-        label-for="form-title-input">
-        <b-form-input id="form-title-input"
-          type="text"
-          v-model= "addLocForm.title"
-          required
-          placeholder="Enter Location">
-        </b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-  </b-modal>
-  <b-modal ref="editLocModal" id="loc-update-modal" title="Update" hide-footer>
-    <b-form @submit= "onSubmitUpdate" @reset= "onResetUpdate" class="w-100">
-      <b-form-group id= "form-title-edit-group" label = "Location:" label-for= "form-title-edit-input">
-        <b-form-input id="form-title-edit-input" type= "text" v-model= "editForm.title" required placeholder= "Enter Location">
-        </b-form-input>
-      </b-form-group>
-      <b-button type= "submit" variant= "primary"> Update </b-button>
-      <b-button type= "submit" variant= "danger"> Cancel </b-button>
-    </b-form>
-  </b-modal>
-  <b-modal ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
-    <table class = "table table-hover">
-      <tbody>
-        <tr>
-          <td><graphs :precip= "precip"></graphs> </td>
-        </tr>
-        <tr>
-          <td> Wind Speed Data : {{ wind }}</td>
-        </tr>
-        <tr>
-          <td> Humidity Data : {{ hum }}</td>
-        </tr>
-        <tr>
-          <td> MinMax Data : {{ minMax }} </td>
-        </tr>
-      </tbody>
-    </table>
-  </b-modal>
-</div>
-<div id="full_div">
-  <simpmaps :lat_long= "lat_long"></simpmaps>
-</div>
-</div>
+  <!-- eslint-disable max-len -->
+  <div id="app">
+    <div id="side">
+      <alert :message="message" v-if="showMessage"></alert>
+      <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
+      <br>
+      <br>
+      <table id="table" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Location</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(loc, index) in yourLoc" :key="index">
+            <b-card style="max-width: 30rem;">
+              <td>{{ loc.title }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  v-b-modal.loc-weather-modal
+                  @click="openWeather(loc)"
+                >Weather</button>
+                <!-- <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button> -->
+              </td>
+            </b-card>
+          </tr>
+        </tbody>
+      </table>
+      <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
+        <b-form @submit="onSubmit" @reset="onReset" class="w-100">
+          <b-form-group id="form-title-group" label="Location:" label-for="form-title-input">
+            <b-form-input
+              id="form-title-input"
+              type="text"
+              v-model="addLocForm.title"
+              required
+              placeholder="Enter Location"
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+        </b-form>
+      </b-modal>
+      <b-modal ref="editLocModal" id="loc-update-modal" title="Update" hide-footer>
+        <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
+          <b-form-group
+            id="form-title-edit-group"
+            label="Location:"
+            label-for="form-title-edit-input"
+          >
+            <b-form-input
+              id="form-title-edit-input"
+              type="text"
+              v-model="editForm.title"
+              required
+              placeholder="Enter Location"
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">Update</b-button>
+          <b-button type="submit" variant="danger">Cancel</b-button>
+        </b-form>
+      </b-modal>
+      <b-modal size="lg" ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <td>
+                <d3-line
+                  :data="precip"
+                  :options="precipOptions"
+                  :margin="margin"
+                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(
+              dateTimeStart, dateTimeEnd)"
+                  width="100%"
+                  height="300px"
+                ></d3-line>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <d3-line
+                  :data="wind"
+                  :options="windOptions"
+                  :margin="margin"
+                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(
+              dateTimeStart, dateTimeEnd)"
+                  width="100%"
+                  height="300px"
+                ></d3-line>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <d3-line
+                  :data="hum"
+                  :options="humOptions"
+                  :margin="margin"
+                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(
+              dateTimeStart, dateTimeEnd)"
+                  width="100%"
+                  height="300px"
+                ></d3-line>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <d3-multi-line
+                  :data="minMax"
+                  :options="minMaxOptions"
+                  :margin="margin"
+                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(dateTimeStart, dateTimeEnd)"
+                  width="100%"
+                  height="300px"
+                ></d3-multi-line>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </b-modal>
+    </div>
+    <div id="full_div">
+      <simpmaps :lat_long="lat_long"></simpmaps>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -80,7 +133,6 @@
 import axios from "axios";
 import Alert from "./Alert";
 import Maps from "./Maps";
-import Graph from "./Graph";
 
 export default {
   data() {
@@ -104,8 +156,7 @@ export default {
   },
   components: {
     alert: Alert,
-    simpmaps: Maps,
-    graphs: Graph
+    simpmaps: Maps
   },
   methods: {
     getLoc() {
@@ -231,6 +282,36 @@ export default {
   },
   created() {
     this.getLoc();
+  },
+  computed: {
+    precipOptions: function() {
+      var obj = {};
+      obj["axisXLabel"] = "Next Week's Precipitation";
+      obj["axisYLabel"] = "Chance of Precipitation (%)";
+      obj["tickSize"] = 5;
+      return obj;
+    },
+    windOptions: function() {
+      var obj = {};
+      obj["axisXLabel"] = "Next Week's Wind";
+      obj["axisYLabel"] = "Wind Speed (mph) ";
+      obj["tickSize"] = 5;
+      return obj;
+    },
+    minMaxOptions: function() {
+      var obj = {};
+      obj["axisXLabel"] = "Next Week's Temperature";
+      obj["axisYLabel"] = "Temperature (°F) ";
+      obj["tickSize"] = 5;
+      return obj;
+    },
+    humOptions: function() {
+      var obj = {};
+      obj["axisXLabel"] = "Next Week's Humidity";
+      obj["axisYLabel"] = "Humidity (%) ";
+      obj["tickSize"] = 5;
+      return obj;
+    }
   }
 };
 </script>
