@@ -13,16 +13,6 @@ CORS(app)
 
 
 # sanity check route
-LOCATIONS = [
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'Buffalo',
-    },
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'New York City',
-    }
-]
 ERROR = [1]
 COORDS = [
     {
@@ -36,6 +26,18 @@ COORDS = [
         "weather": weathers.getWeather("New York City")
     },
 ]
+LOCATIONS = [
+    {
+        'id': uuid.uuid4().hex,
+        'title': 'Buffalo',
+        'emoji': COORDS[0]['weather']['emoji']
+    },
+    {
+        'id': uuid.uuid4().hex,
+        'title': 'New York City',
+        'emoji': COORDS[1]['weather']['emoji']
+    }
+]
 LOWKEY = ['Buffalo','New York City']
 #Gets the list of current cities and can also be used to add new cities
 @app.route('/index', methods=['GET', 'POST'])
@@ -47,17 +49,18 @@ def all_weather():
         else:
             ifvalid = weathers.getLats(request.json['title'])
             if len(ifvalid) == 2:
-                LOCATION = {
-                    'id': uuid.uuid4().hex,
-                    'title':request.json['title']
-                }
-                LOCATIONS.append(LOCATION)
                 COORD = {
                     "coords" : ifvalid,
                     "title": request.json['title'],
                     "weather": weathers.getWeather(request.json['title'])
                 }
                 COORDS.append(COORD)
+                LOCATION = {
+                    'id': uuid.uuid4().hex,
+                    'title':request.json['title'],
+                    'emoji': COORD['weather']['emoji']
+                }
+                LOCATIONS.append(LOCATION)
                 LOWKEY.append(request.json['title'])
                 ERROR.append(1)
             else:

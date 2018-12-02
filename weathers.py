@@ -56,8 +56,11 @@ def getWeather(weather_title):
     temperature = str(int(data['currently']['temperature']))
     temperatureMax = data['daily']['data'][0]['temperatureHigh']
     temperatureMin = data['daily']['data'][0]['temperatureLow']
-    #RAIN_WARNING = data['daily']['data'][0]['precipProbability']
-    #PRECIP_WARNING = data['daily']['data'][0]['precipType']
+    RAIN_WARNING = data['daily']['data'][0]['precipProbability']
+    PRECIP_WARNING = data['daily']['data'][0]['precipType']
+    rain = 0 
+    if RAIN_WARNING > .5 and PRECIP_WARNING == 'rain':
+        rain = 1 
     #highWinds = data['daily']['data'][0]['windSpeed']
     #####
     #Rain Commentary #
@@ -73,13 +76,19 @@ def getWeather(weather_title):
     matches = [d['link'] for d in icon_database if d['name'] == weather_icon]
     matches = matches[0]
     #picture = str(matches[0])
-
+    if int(temperature) > 50:
+        emoji = "em em-shirt"
+    elif int(temperature) < 50:
+        emoji = "em em-coat"
+    if rain == 1:
+        emoji = "em em-umbrella_with_rain_drops"
     #packing the weather info into a dictionary 
     weather_info = {
         'temperature' : temperature,
         'max' : temperatureMax,
         'min' : temperatureMin,
-        'matches' : matches
+        'matches' : matches,
+        'emoji': emoji
     }
 
     #matches the weather information to a clothing album (one of ten)

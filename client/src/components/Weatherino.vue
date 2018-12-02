@@ -1,6 +1,7 @@
 <template>
   <!-- eslint-disable max-len -->
   <div id="app">
+    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <div id="side">
       <alert :message="message" v-if="showMessage"></alert>
       <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
@@ -26,6 +27,9 @@
                   @click="openWeather(loc)"
                 >Weather</button>
                 <!-- <button type="button" class="btn btn-outline-danger btn-sm" @click= "onDeleteLoc(loc)">X</button> -->
+              </td>
+              <td>
+                <i :class="loc.emoji"></i>
               </td>
             </b-card>
           </tr>
@@ -313,9 +317,9 @@ export default {
       obj["axisYLabel"] = "Humidity (%) ";
       obj["tickSize"] = 5;
       return obj;
-    }
-  }
-};
+    },
+},
+}
 </script>
 <style>
 #side {
