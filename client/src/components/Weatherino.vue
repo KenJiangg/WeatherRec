@@ -6,6 +6,7 @@
       <button type="button" class="btn btn-success btn-sm" v-b-modal.loc-modal>Add Location</button>
       <br>
       <br>
+      <div style="height:450px;overflow:auto;">
       <table id="table" class="table table-hover">
         <thead>
           <tr>
@@ -30,6 +31,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <b-modal ref="addLocModal" id="loc-modal" title="Add a New Location" hide-footer>
         <b-form @submit="onSubmit" @reset="onReset" class="w-100">
           <b-form-group id="form-title-group" label="Location:" label-for="form-title-input">
@@ -64,9 +66,21 @@
           <b-button type="submit" variant="danger">Cancel</b-button>
         </b-form>
       </b-modal>
-      <b-modal size="lg" ref="openWeatherModal" id="loc-weather-modal" title="Weather" hide-footer>
+      <b-modal size="lg" ref="openWeatherModal" id="loc-weather-modal" title="Graphs" hide-footer>
         <table class="table table-hover">
           <tbody>
+            <tr>
+              <td>
+                <d3-multi-line
+                  :data="minMax"
+                  :options="minMaxOptions"
+                  :margin="margin"
+                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(dateTimeStart, dateTimeEnd)"
+                  width="100%"
+                  height="300px"
+                ></d3-multi-line>
+              </td>
+            </tr>
             <tr>
               <td>
                 <d3-line
@@ -104,18 +118,6 @@
                   width="100%"
                   height="300px"
                 ></d3-line>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <d3-multi-line
-                  :data="minMax"
-                  :options="minMaxOptions"
-                  :margin="margin"
-                  @range-updated="(dateTimeStart, dateTimeEnd) => fetchDataWithCurrentInterval(dateTimeStart, dateTimeEnd)"
-                  width="100%"
-                  height="300px"
-                ></d3-multi-line>
               </td>
             </tr>
           </tbody>

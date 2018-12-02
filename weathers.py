@@ -154,11 +154,11 @@ def makeGraphData(weather_title):
             "value": i['humidity'] * 100
             })
         tempData.append({
-            "group": 'MaxTemp',
+            "group": 'Max Temperature',
             "key": time.strftime("%A",time.gmtime(times)),
             "value" :i['temperatureHigh']})
         tempData.append({
-            "group": 'MinTemp',
+            "group": 'Min Temperature',
             "key": time.strftime("%A",time.gmtime(times)),
             "value" : i['temperatureLow']})
     response_object['precip'] = precipData
